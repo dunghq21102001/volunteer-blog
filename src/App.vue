@@ -2,7 +2,7 @@
   <div class="w-full">
     <MainHeader />
   </div>
-  <div class="md:mx-[60px] lg:mx-[100px] font-mono">
+  <div class="md:mx-[60px] lg:mx-[100px] font-serif">
     <RouterView />
   </div>
 </template>
