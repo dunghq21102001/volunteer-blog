@@ -1,47 +1,33 @@
 <template>
   <div class="w-full">
     <!-- banner -->
-    <div
-      class="w-full hidden md:flex items-start justify-between max-h-[500px] h-[500px]"
-    >
+    <div class="w-full hidden md:flex items-start justify-between max-h-[500px] h-[500px]">
       <div class="w-[60%] h-full overflow-hidden">
-        <div class="w-full h-full relative bg-parent">
-          <img
-            src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/320054633_692712262360107_934901059504487043_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=wwajCCYj84kQ7kNvgFKWz8o&_nc_ht=scontent.fsgn2-9.fna&_nc_gid=AemRg2r1n841a2R0UYoZp7J&oh=00_AYA3pvZgVum3cGnGftvS9C_vhTRMRSr4-uuxW_qKF69i_A&oe=670DD37F"
-            class="w-full h-full"
-            alt=""
-          />
+        <div @click="goToBlog(top3Blogs[1]?._id)" class="w-full h-full relative bg-parent">
+          <img :src="top3Blogs[0]?.image" class="w-full h-full" alt="" />
           <div class="absolute top-0 left-0 right-0 bottom-0 text-white bg-cus">
             <p class="absolute bottom-0 px-10 pb-5 text-[22px]">
-              Ra quân Chiến dịch Xuân tình nguyện TP. Hồ Chí Minh lần 20
+              {{ top3Blogs[0]?.title }}
             </p>
           </div>
         </div>
       </div>
-      <div
-        class="pl-2 w-[40%] flex flex-col items-start justify-between h-full overflow-hidden"
-      >
-        <div class="w-full h-[49%] relative bg-parent">
-          <img
-            src="https://cdn.lichngaytot.com/medias/standard/2019/10/4/Giac-mo-ve-bien-ca.jpg"
-            class="w-full h-full"
-            alt=""
-          />
+      <div class="pl-2 w-[40%] flex flex-col items-start justify-between h-full overflow-hidden">
+        <div @click="goToBlog(top3Blogs[1]?._id)" class="w-full h-[49%] relative bg-parent">
+          <img :src="top3Blogs[1]?.image" class="w-full h-full" alt="" />
           <div class="absolute top-0 left-0 right-0 bottom-0 text-white bg-cus">
             <p class="absolute bottom-0 px-10 pb-5 text-[22px]">
-              Ra quân Chiến dịch Xuân tình nguyện TP. Hồ Chí Minh lần 20
+              {{ top3Blogs[1]?.title }}
+
             </p>
           </div>
         </div>
-        <div class="w-full h-[49%] relative bg-parent">
-          <img
-            src="https://espc.com.vn/mediacenter/media/images/1595/news/ava/s800_600/mu-cang-chai-1512708804.png"
-            class="w-full h-full"
-            alt=""
-          />
+        <div @click="goToBlog(top3Blogs[1]?._id)" class="w-full h-[49%] relative bg-parent">
+          <img :src="top3Blogs[2]?.image" class="w-full h-full" alt="" />
           <div class="absolute top-0 left-0 right-0 bottom-0 text-white bg-cus">
             <p class="absolute bottom-0 px-10 pb-5 text-[22px]">
-              Ra quân Chiến dịch Xuân tình nguyện TP. Hồ Chí Minh lần 20
+              {{ top3Blogs[2]?.title }}
+
             </p>
           </div>
         </div>
@@ -49,11 +35,7 @@
     </div>
 
     <!-- top new posts (4 posts)  -->
-    <div
-      class="w-full mt-[60px]"
-      v-for="(post, categoryName) in blogPosts"
-      :key="post?._id"
-    >
+    <div class="w-full mt-[60px]" v-for="(post, categoryName) in blogPosts" :key="post?._id">
       <div class="text-box">
         <h1 class="text-[20px] font-bold ml-4 md:ml-0">{{ categoryName }}</h1>
         <div class="text-line"></div>
@@ -63,24 +45,13 @@
       <div class="w-full flex items-start justify-between mt-2">
         <!-- box 1 -->
         <div class="w-full lg:w-[60%] mx-3 md:mx-0 grid grid-cols-12 gap-5">
-          <div
-            v-for="(item, index) in post"
-            :key="index"
-            class="col-span-12 md:col-span-6 relative h-[320px] rounded-md overflow-hidden"
-          >
+          <div v-for="(item, index) in post" :key="index"
+            class="col-span-12 md:col-span-6 relative h-[320px] rounded-md overflow-hidden">
             <div class="w-full h-[240px] overflow-hidden hover:cursor-pointer">
-              <img
-                :src='item?.image'
-                class="w-full h-full duration-700 hover:scale-110"
-                alt=""
-              />
+              <img :src='item?.image' class="w-full h-full duration-700 hover:scale-110" alt="" />
             </div>
-            <div
-              class="w-[96%] mt-1 bg-[#f5f5f5] absolute right-0 bottom-[50px] px-3 py-2"
-            >
-              <h1
-                class="text-gray-500 text-[22px] cursor-pointer hover:underline"
-              >
+            <div class="w-[96%] mt-1 bg-[#f5f5f5] absolute right-0 bottom-[50px] px-3 py-2">
+              <h1 class="text-gray-500 text-[22px] cursor-pointer hover:underline">
                 {{ item?.title }}
               </h1>
               <p class="text-[14px]">{{ convertDate(item?.createdAt) }}</p>
@@ -131,10 +102,12 @@ export default {
   data() {
     return {
       blogPosts: [],
+      top3Blogs: []
     };
   },
   mounted() {
     this.fetchBlogs();
+    this.fetchTop3()
   },
   methods: {
     async fetchBlogs() {
@@ -151,10 +124,22 @@ export default {
 
           return acc;
         }, {});
+
+        Object.keys(groupedByCategory).forEach(category => {
+          groupedByCategory[category] = groupedByCategory[category].slice(0, 4);
+        });
+
         this.blogPosts = groupedByCategory;
-        console.log(groupedByCategory);
       } catch (error) {
         console.error("Error fetching blog posts:", error);
+      }
+    },
+    async fetchTop3() {
+      try {
+        const response = await axios.get("http://localhost:3001/api/v1/blogs/top");
+        this.top3Blogs = response.data
+      } catch (error) {
+        console.log(error);
       }
     },
     convertDate(isoString) {
@@ -167,6 +152,9 @@ export default {
       const year = date.getFullYear();
 
       return `${hours}:${minutes}:${seconds} ${day}/${month}/${year}`;
+    },
+    goToBlog(blogId) {
+      this.$router.push(`/blog/${blogId}`)
     },
   },
 };
