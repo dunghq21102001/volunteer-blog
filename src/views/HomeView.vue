@@ -3,7 +3,7 @@
     <!-- banner -->
     <div class="w-full hidden md:flex items-start justify-between max-h-[500px] h-[500px]">
       <div class="w-[60%] h-full overflow-hidden">
-        <div @click="goToBlog(top3Blogs[1]?._id)" class="w-full h-full relative bg-parent">
+        <div @click="goToBlog(top3Blogs[0]?._id)" class="w-full h-full relative bg-parent">
           <img :src="top3Blogs[0]?.image" class="w-full h-full" alt="" />
           <div class="absolute top-0 left-0 right-0 bottom-0 text-white bg-cus">
             <p class="absolute bottom-0 px-10 pb-5 text-[22px]">
@@ -22,7 +22,7 @@
             </p>
           </div>
         </div>
-        <div @click="goToBlog(top3Blogs[1]?._id)" class="w-full h-[49%] relative bg-parent">
+        <div @click="goToBlog(top3Blogs[2]?._id)" class="w-full h-[49%] relative bg-parent">
           <img :src="top3Blogs[2]?.image" class="w-full h-full" alt="" />
           <div class="absolute top-0 left-0 right-0 bottom-0 text-white bg-cus">
             <p class="absolute bottom-0 px-10 pb-5 text-[22px]">
@@ -45,7 +45,7 @@
       <div class="w-full flex items-start justify-between mt-2">
         <!-- box 1 -->
         <div class="w-full lg:w-[60%] mx-3 md:mx-0 grid grid-cols-12 gap-5">
-          <div v-for="(item, index) in post" :key="index"
+          <div @click="goToBlog(item?._id)" v-for="(item, index) in post" :key="index"
             class="col-span-12 md:col-span-6 relative h-[320px] rounded-md overflow-hidden">
             <div class="w-full h-[240px] overflow-hidden hover:cursor-pointer">
               <img :src='item?.image' class="w-full h-full duration-700 hover:scale-110" alt="" />
@@ -64,30 +64,11 @@
           <!-- get top 5 latest -->
           <h1 class="font-bold text-[18px]">Thông báo</h1>
           <div class="flex w-full flex-col items-start">
-            <p class="w-full text-gray-500">
-              Thông báo thu học phí HK1/24-25 của sinh viên các khoá bậc đại học
-              chính quy chương trình chuẩn 09/10/2024
-            </p>
-            <div class="noti-line"></div>
-            <p class="w-full text-gray-500">
-              Thông báo thu học phí HK1/24-25 của sinh viên các khoá bậc đại học
-              chính quy chương trình chuẩn 09/10/2024
-            </p>
-            <div class="noti-line"></div>
-            <p class="w-full text-gray-500">
-              Thông báo thu học phí HK1/24-25 của sinh viên các khoá bậc đại học
-              chính quy chương trình chuẩn 09/10/2024
-            </p>
-            <div class="noti-line"></div>
-            <p class="w-full text-gray-500">
-              Thông báo thu học phí HK1/24-25 của sinh viên các khoá bậc đại học
-              chính quy chương trình chuẩn 09/10/2024
-            </p>
-            <div class="noti-line"></div>
-            <p class="w-full text-gray-500">
-              Thông báo thu học phí HK1/24-25 của sinh viên các khoá bậc đại học
-              chính quy chương trình chuẩn 09/10/2024
-            </p>
+            <div v-for="item in blogsShowNoti" :key="item?._id" class="w-full text-gray-500">
+              {{ item?.title }}
+              <div class="noti-line"></div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -102,7 +83,8 @@ export default {
   data() {
     return {
       blogPosts: [],
-      top3Blogs: []
+      top3Blogs: [],
+      blogsShowNoti: []
     };
   },
   mounted() {
@@ -112,7 +94,8 @@ export default {
   methods: {
     async fetchBlogs() {
       try {
-        const response = await axios.get("http://localhost:3001/api/v1/blogs");
+        const response = await axios.get("https://volunteer-blog-api.onrender.com/api/v1/blogs");
+        this.blogsShowNoti = response.data.data
         const groupedByCategory = response.data.data.reduce((acc, item) => {
           const { categoryName } = item;
 
@@ -136,7 +119,7 @@ export default {
     },
     async fetchTop3() {
       try {
-        const response = await axios.get("http://localhost:3001/api/v1/blogs/top");
+        const response = await axios.get("https://volunteer-blog-api.onrender.com/api/v1/blogs/top");
         this.top3Blogs = response.data
       } catch (error) {
         console.log(error);
