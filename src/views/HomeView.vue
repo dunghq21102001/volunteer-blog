@@ -95,7 +95,7 @@ export default {
   methods: {
     async fetchBlogs() {
       try {
-        const response = await axios.get("https://volunteer-blog-api.vercel.app/api/v1/blogs");
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/blogs`);
         this.blogsShowNoti = response.data.data
         const groupedByCategory = response.data.data.reduce((acc, item) => {
           const { categoryName } = item;
@@ -120,7 +120,7 @@ export default {
     },
     async fetchTop3() {
       try {
-        const response = await axios.get("https://volunteer-blog-api.vercel.app/api/v1/blogs/top");
+        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/blogs/top`);
         this.top3Blogs = response.data
       } catch (error) {
         console.log(error);

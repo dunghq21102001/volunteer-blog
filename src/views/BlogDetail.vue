@@ -26,7 +26,7 @@ export default {
         async fetchBlogDetail() {
             try {
                 const blogId = this.$route.params.id;
-                const response = await axios.get(`https://volunteer-blog-api.vercel.app/api/v1/blogs/${blogId}`);
+                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/blogs/${blogId}`);
                 this.blog = response.data;
             } catch (error) {
                 this.$router.push(`/`)

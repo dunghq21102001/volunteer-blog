@@ -1,35 +1,39 @@
 <template>
   <div class="w-full mb-[50px] z-10">
-    <div class="w-full flex items-center justify-between py-2 md:px-[60px] lg:px-[100px]">
-      <div class="flex items-center justify-start">
-        <v-icon @click="goToFB" class="mx-3 cursor-pointer hover:text-pink-600" scale="1.2" name="co-facebook-f" />
+    <div class="w-full relative flex items-center justify-center pt-20 pb-2 md:px-[60px] lg:px-[100px]">
+      <div class="absolute top-6 left-[50%] translate-x-[-50%] lg:flex items-center hidden">
+        <img class="w-[50px]" src="../assets/images/logo khoa.png" />
+        <img class="w-[50px]" src="../assets/images/logo hội.png" />
       </div>
       <div>
-        <p class="my-5 rainbow-text text-[30px] font-bold">Tình nguyện</p>
-      </div>
-      <div>
-        <v-icon class="mx-3 cursor-pointer hover:text-pink-600" scale="1.2" name="hi-menu" />
+        <p class="my-5 uppercase text-[#00aeef] text-[30px] font-bold">liên chi hội sinh viên khoa giáo dục</p>
       </div>
     </div>
-    <div class="line"></div>
-    <div class="w-full hidden lg:flex items-center justify-center my-6 z-[11]">
-      <div v-for="tab in mainMenu" :key="tab.name"
-        class="font-bold cursor-pointer mx-6 mt-1 lg:text-[16px] xl:text-[18px] flex items-center relative parent-tab"
-        :style="{ color: isHovered === tab.name ? tab.color : 'inherit' }" @mouseenter="isHovered = tab.name"
-        @mouseleave="isHovered = null">
-        <h1 @click="goTo(tab.url)">
-          {{ tab.name }}
-          <v-icon v-if="tab.children.length > 0" name="bi-caret-down-fill" scale="1" />
-        </h1>
+    <div class="w-full bg-[#2b78d0]">
+      <div class="w-full hidden lg:flex items-center justify-between my-6 z-[11] py-2 md:px-[60px] lg:px-[100px]">
+        <div v-for="(tab, index) in mainMenu" :key="tab.name"
+          class="font-bold cursor-pointer lg:text-[16px] xl:text-[18px] flex items-center relative parent-tab">
+          <div
+            :class="`${index == 0 ? 'text-left' : index === mainMenu.length ? 'text-right' : 'text-center'} text-white w-full uppercase`"
+            @click="goTo(tab.url)">
+            <template v-if="tab.type === 'text'">
+              {{ tab.name }}
+            </template>
+            <template v-else>
+              <img src="../assets/images/home.png" alt="tab image" class="w-[25px]" />
+            </template>
+            <v-icon v-if="tab.children.length > 0" name="bi-caret-down-fill" scale="1" />
+          </div>
 
-        <ul v-if="tab.children.length > 0" class="child-tab">
-          <li v-for="child in tab.children" :key="child.name">
-            {{ child.name }}
-          </li>
-        </ul>
+          <ul v-if="tab.children.length > 0" class="child-tab">
+            <li v-for="child in tab.children" :key="child.name">
+              {{ child.name }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="line"></div>
+    <!-- <div class="line"></div> -->
   </div>
 </template>
 
@@ -38,10 +42,34 @@ export default {
   data() {
     return {
       mainMenu: [
-        { name: "Trang chủ", children: [], url: '/', color: '#ff0000' },
-        { name: "Thông báo", children: [], url: '', color: '#ffa500' },
         {
-          name: "Xuân tình nguyện",
+          name: "Trang chủ",
+          type: 'image',
+          children: [], url: '/', color: '#ff0000'
+        },
+        {
+          name: "Giới thiệu",
+          type: 'text',
+          children: [], url: '', color: '#ffa500'
+        },
+        {
+          name: "Giáo dục",
+          type: 'text',
+          children: [], url: '', color: '#ffa500'
+        },
+        {
+          name: "Hỗ trợ sinh viên",
+          type: 'text',
+          children: [], url: '', color: '#ffa500'
+        },
+        {
+          name: "xây dựng hội",
+          type: 'text',
+          children: [], url: '', color: '#ffa500'
+        },
+        {
+          name: "Tình nguyện",
+          type: 'text',
           children: [
             { name: "Xuân Tình Nguyện 2022", url: '/' },
             { name: "Xuân Tình Nguyện 2023", url: '/' },
@@ -50,6 +78,7 @@ export default {
         },
         {
           name: "Mùa hè xanh",
+          type: 'text',
           children: [
             { name: "Mùa hè xanh 2022", url: '/' },
             { name: "Mùa hè xanh 2023", url: '/' },
@@ -57,12 +86,10 @@ export default {
           ], url: '', color: '#0000ff'
         },
         {
-          name: "Các hoạt động khác",
+          name: "Liên hệ",
+          type: 'text',
           children: [
-            { name: "Trăng yêu thương", url: '/' },
-            { name: "Bát cháo nghĩa tình", url: '/' },
-            { name: "Đông rồi lại xuân", url: '/' },
-          ], url: '', color: '#4b0082'
+          ], url: '', color: '#008000'
         },
       ],
       isHovered: null,

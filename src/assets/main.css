@@ -7,6 +7,13 @@
     text-overflow: ellipsis;
 }
 
-* {
-    font-family: serif;
+@font-face {
+    font-family: 'customFont1';
+    src: './font/MONTSERRAT-MEDIUM.TTF';
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
+    font-family:'customFont1';
 }

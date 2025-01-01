@@ -5,14 +5,18 @@
   <div class="md:mx-[60px] lg:mx-[100px]">
     <RouterView />
   </div>
+  <MainFotter />
+
 </template>
 <script>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import MainHeader from './components/MainHeader.vue';
-
+import MainFotter from './components/MainFooter.vue'
 export default {
   components: {
-    MainHeader
+    MainHeader,
+    MainFotter,
+    RouterView
   }
 }
 </script>
